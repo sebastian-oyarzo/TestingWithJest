@@ -14,12 +14,14 @@ describe("Operaciones CRUD de cafes", () => {
     //requerimiento 2 del desafio: error en el status code, arroja 400 cuando se esperaba 404
     it('status 404 si se intenta borrar un id que no existe a la ruta /cafes/:id', async () => {
         const nonExistentId = 10000; // ID que no existe en cafes.json
-        const response = await request(app).delete(`/cafes/${nonExistentId}`);
+        const response = await request(app)
+        .delete(`/cafes/${nonExistentId}`)
+        .set("Authorization", "Bearer token-valido");
         //se utiliza el metodo some para comprobar que al menos 1 id coincida
         const cafeExiste = cafesJson.some(cafe => cafe.id == nonExistentId);
         expect(cafeExiste).toBe(false);
         expect(response.statusCode).toBe(404); // Verificar que devuelva 404
-        expect(response.body).toHaveProperty('error', 'Café no encontrado');
+        expect(response.body.message).toBe("No se encontró ningún cafe con ese id");
     });
      // requerimiento 3 del desafio: Test para agregar un nuevo café y verificar que devuelva 201, funciona correcto
      it('status 201,  debe agregar un nuevo café ', async () => {

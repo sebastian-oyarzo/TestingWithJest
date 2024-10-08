@@ -63,7 +63,6 @@ app.delete("/cafes/:id", (req, res) => {
         } else {
             res.status(404).send({ message: "No se encontró ningún cafe con ese id" })
         }
-        //a continuacion se ve el error que nos arroja al momento de hacer test, el status es 400 y no 404.
     } else res.status(400).send({ message: "No recibió ningún token en las cabeceras" })
 })
 
